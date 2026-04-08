@@ -1,0 +1,45 @@
+{
+  "name": "markdown-lens",
+  "displayName": "Markdown Lens",
+  "description": "Single-pane Markdown editor with preview/edit toggle",
+  "version": "0.0.1",
+  "publisher": "quang-nguyen",
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCustomEditor:markdownLens.editor"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "markdownLens.editor",
+        "displayName": "Markdown Lens",
+        "selector": [
+          {
+            "filenamePattern": "*.md"
+          }
+        ],
+        "priority": "option"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node -e \"const fs=require('fs');const src='node_modules/markdown-it/dist/markdown-it.min.js';const dst='media/markdown-it.min.js';if(fs.existsSync(src)){fs.mkdirSync('media',{recursive:true});fs.copyFileSync(src,dst);console.log('Copied markdown-it.min.js to media/');}else{console.warn('markdown-it not found, skipping copy');}\""
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^25.5.2",
+    "@types/vscode": "^1.110.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.1"
+  }
+}
