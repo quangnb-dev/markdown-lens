@@ -53,15 +53,16 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
     );
     webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview, mediaPath);
 
-    // Post initial content
-    webviewPanel.webview.postMessage({
-      type: 'updateContent',
-      text: document.getText(),
-    });
-
     // Handle messages from the webview (edit-sync)
     const messageSubscription = webviewPanel.webview.onDidReceiveMessage(
       async (message: { type: string; text: string }) => {
+        if (message.type === 'ready') {
+          webviewPanel.webview.postMessage({
+            type: 'updateContent',
+            text: document.getText(),
+          });
+          return;
+        }
         if (message.type !== 'edit') {
           return;
         }

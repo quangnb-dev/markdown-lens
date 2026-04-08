@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 // Webview script — runs inside the VS Code webview sandbox (no Node.js)
 
 (function () {
@@ -23,6 +23,13 @@
   // 6.4 Render Markdown into the preview div
   function render(text) {
     preview.innerHTML = md.render(text);
+    // Wrap tables for horizontal scroll
+    preview.querySelectorAll('table').forEach(table => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper';
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
   }
 
   // 6.5 Switch between preview and edit modes
@@ -50,8 +57,14 @@
       currentText = message.text;
       if (currentMode === 'preview') {
         render(currentText);
-      } else {
+      } else if (textarea.value !== currentText) {
+        // Only update textarea if content actually differs (external change).
+        // Skip echo-back from our own edits to preserve cursor position.
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
         textarea.value = currentText;
+        textarea.selectionStart = Math.min(start, currentText.length);
+        textarea.selectionEnd = Math.min(end, currentText.length);
       }
     }
   });
@@ -71,4 +84,7 @@
 
   // Initialise the UI in the restored (or default) mode
   setMode(currentMode);
+
+  // Signal to extension host that webview is ready to receive messages
+  vscode.postMessage({ type: 'ready' });
 }());

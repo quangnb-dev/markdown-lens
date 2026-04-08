@@ -216,10 +216,14 @@ html, body {
 }
 
 /* Tables */
+#preview .table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
 #preview table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 16px;
   border-spacing: 0;
 }
 
@@ -228,15 +232,12 @@ html, body {
   padding: 8px 14px;
   border: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.3));
   text-align: left;
+  white-space: nowrap;
 }
 
 #preview table th {
   font-weight: 600;
   background-color: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.08));
-}
-
-#preview table tr:nth-child(even) {
-  background-color: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.04));
 }
 
 /* Horizontal rules */
