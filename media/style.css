@@ -171,9 +171,10 @@ html, body {
 #preview blockquote {
   margin: 0 0 16px 0;
   padding: 4px 16px;
-  border-left: 4px solid var(--vscode-textBlockQuote-border, #4080d0);
-  background-color: var(--vscode-textBlockQuote-background, rgba(128, 128, 128, 0.05));
+  border-left: 5px solid var(--vscode-textBlockQuote-border, #4080d0);
+  background-color: var(--vscode-textBlockQuote-background, rgba(128, 128, 128, 0.1));
   color: var(--vscode-textBlockQuote-foreground, inherit);
+  font-style: italic;
 }
 
 #preview blockquote p:last-child {
@@ -191,21 +192,63 @@ html, body {
   background-color: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.12));
   padding: 2px 6px;
   border-radius: 4px;
+  border: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.2));
 }
 
 /* Code blocks */
 #preview pre {
+  position: relative;
   margin-top: 0;
   margin-bottom: 16px;
   background-color: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.1));
   border-radius: 6px;
   overflow: auto;
+  border-left: 3px solid var(--vscode-textLink-foreground, #4080d0);
+}
+
+.pre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.18));
+  border-radius: 6px 6px 0 0;
+  border-bottom: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.2));
+}
+
+.lang-label {
+  font-family: var(--vscode-editor-font-family, 'SF Mono', Monaco, Menlo, Consolas, 'Courier New', monospace);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--vscode-descriptionForeground, rgba(128, 128, 128, 0.8));
+  letter-spacing: 0.4px;
+}
+
+.copy-btn {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: none;
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+
+.copy-btn:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.copy-btn:active {
+  opacity: 0.8;
 }
 
 #preview pre code {
   display: block;
   padding: 14px 18px;
-  background: none;
+  background: none !important;
+  border: none;
   border-radius: 0;
   font-size: 13px;
   line-height: 1.5;

@@ -2,17 +2,22 @@
   "name": "markdown-lens",
   "displayName": "Markdown Lens",
   "description": "Single-pane Markdown editor with preview/edit toggle",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "publisher": "quang-nguyen",
+  "icon": "media/logo.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quangnb-dev/markdown-lens"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.110.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCustomEditor:markdownLens.editor"
-  ],
+  "categories": ["Other"],
   "main": "./out/extension",
   "contributes": {
     "customEditors": [
@@ -31,15 +36,18 @@
   "scripts": {
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
+    "package": "npm run compile && node -e \"const fs=require('fs');fs.rmSync('release',{recursive:true,force:true});fs.mkdirSync('release');\" && npx @vscode/vsce package --out release/",
     "postinstall": "node -e \"const fs=require('fs');const src='node_modules/markdown-it/dist/markdown-it.min.js';const dst='media/markdown-it.min.js';if(fs.existsSync(src)){fs.mkdirSync('media',{recursive:true});fs.copyFileSync(src,dst);console.log('Copied markdown-it.min.js to media/');}else{console.warn('markdown-it not found, skipping copy');}\""
   },
   "devDependencies": {
+    "@highlightjs/cdn-assets": "^11.11.1",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^25.5.2",
     "@types/vscode": "^1.110.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "highlight.js": "^11.11.1",
     "markdown-it": "^14.1.1"
   }
 }

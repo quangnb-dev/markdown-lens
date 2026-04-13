@@ -99,11 +99,20 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
     const markdownItUri = webview.asWebviewUri(
       vscode.Uri.joinPath(mediaPath, 'markdown-it.min.js')
     );
+    const hljsUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(mediaPath, 'highlight.min.js')
+    );
     const mainJsUri = webview.asWebviewUri(
       vscode.Uri.joinPath(mediaPath, 'main.js')
     );
     const styleCssUri = webview.asWebviewUri(
       vscode.Uri.joinPath(mediaPath, 'style.css')
+    );
+    const hljsDarkUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(mediaPath, 'hljs-dark.min.css')
+    );
+    const hljsLightUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(mediaPath, 'hljs-light.min.css')
     );
 
     return /* html */ `<!DOCTYPE html>
@@ -114,6 +123,8 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'none'; img-src ${webview.cspSource} https: data:; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}';">
   <link rel="stylesheet" nonce="${nonce}" href="${styleCssUri}">
+  <link rel="stylesheet" nonce="${nonce}" id="hljs-theme-dark" href="${hljsDarkUri}" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" nonce="${nonce}" id="hljs-theme-light" href="${hljsLightUri}" media="(prefers-color-scheme: light)">
   <title>Markdown Lens</title>
 </head>
 <body>
@@ -125,6 +136,7 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
   <textarea id="editor" style="display:none"></textarea>
 
   <script nonce="${nonce}" src="${markdownItUri}"></script>
+  <script nonce="${nonce}" src="${hljsUri}"></script>
   <script nonce="${nonce}" src="${mainJsUri}"></script>
 </body>
 </html>`;

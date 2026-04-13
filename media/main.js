@@ -30,6 +30,54 @@
       table.parentNode.insertBefore(wrapper, table);
       wrapper.appendChild(table);
     });
+    // Syntax highlight all code blocks
+    preview.querySelectorAll('pre code').forEach(block => {
+      hljs.highlightElement(block);
+    });
+    addCopyButtons();
+  }
+
+  // Inject a header bar with language label and copy button into every code block
+  function addCopyButtons() {
+    preview.querySelectorAll('pre').forEach(pre => {
+      // Guard: skip if header already exists (prevent duplicates on re-render)
+      if (pre.querySelector('.pre-header')) return;
+
+      const codeEl = pre.querySelector('code');
+      if (!codeEl) return;
+
+      // Extract language from class like "language-javascript"
+      const rawClass = codeEl.className || '';
+      const lang = rawClass.replace('language-', '').trim();
+
+      // Build header
+      const header = document.createElement('div');
+      header.className = 'pre-header';
+
+      const label = document.createElement('span');
+      label.className = 'lang-label';
+      label.textContent = lang ? lang.toUpperCase() : '';
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', () => {
+        try {
+          navigator.clipboard.writeText(codeEl.textContent).then(() => {
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+          }).catch(() => {
+            // Clipboard write rejected silently — no UI change
+          });
+        } catch (_e) {
+          // navigator.clipboard unavailable — do nothing
+        }
+      });
+
+      header.appendChild(label);
+      header.appendChild(btn);
+      pre.insertBefore(header, pre.firstChild);
+    });
   }
 
   // 6.5 Switch between preview and edit modes

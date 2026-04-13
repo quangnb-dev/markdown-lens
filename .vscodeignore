@@ -4,3 +4,9 @@ tsconfig.json
 .vscode/
 .vscodeignore
 package-lock.json
+.augment/
+.claude/
+.github/
+openspec/
+test-preview.md
+*.vsix

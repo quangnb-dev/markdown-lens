@@ -1,6 +1,11 @@
 node_modules/
 out/
 *.vsix
+release/
 .vscode/
 package-lock.json
+
+.claude
+.augment
+openspec
 
